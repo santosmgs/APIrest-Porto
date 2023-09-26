@@ -49,8 +49,6 @@ public class Main {
     private static final String BASE_URI = "http://localhost/";
 
     public static HttpServer startServer() {
-
-
         final ResourceConfig rc = new ResourceConfig()
                 .packages( "br.com.fiap.domain.resource" );
         return GrizzlyHttpServerFactory.createHttpServer( URI.create( BASE_URI ), rc );
