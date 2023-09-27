@@ -15,7 +15,7 @@ import java.util.Properties;
 
 public class Main {
 
-    public static Connection getConnection() throws IOException {
+    public static Connection getConnection(){
         Properties prop =  new Properties();
         FileInputStream file = null;
         String url = null;
