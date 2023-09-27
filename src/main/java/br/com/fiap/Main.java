@@ -53,5 +53,18 @@ public class Main {
                 .packages( "br.com.fiap.domain.resource" );
         return GrizzlyHttpServerFactory.createHttpServer( URI.create( BASE_URI ), rc );
     }
-
+    public static void main(String[] args) {
+        var server = startServer();
+        System.out.println( String.format(
+                "Cliente app started with endpoints available " +
+                        "as %s%nHit Ctrl-C to stop it....", BASE_URI + "cliente" ) );
+        try {
+            System.in.read();
+            server.stop();
+        } catch (IOException e) {
+            throw new RuntimeException( e );
+        }
     }
+}
+
+
