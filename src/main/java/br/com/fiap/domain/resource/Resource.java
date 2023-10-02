@@ -1,15 +1,16 @@
-package br.com.fiap.domain.repository;
+package br.com.fiap.domain.resource;
 
-import java.util.List;
+import jakarta.ws.rs.core.Response;
 
 /**
- * Interface para métodos de Repository
- * @author Francis
- * @version 1.0
+ * Interface para métodos de Recurso da nossa API
+ *
  * @param <T>
  * @param <U>
+ * @author Benefrancis
+ * @version 1.0
  */
-public interface Repository<T, U> {
+public interface Resource<T, U> {
 
     /**
      * <strong>Método para persistencia da Entidade</strong>
@@ -17,14 +18,14 @@ public interface Repository<T, U> {
      * @param t
      * @return
      */
-    public T persist(T t);
+    public Response persist(T t);
 
     /**
      * Método que retorna todas as Entidades
      *
      * @return
      */
-    public List<T> findAll();
+    public Response findAll();
 
     /**
      * Método que retorna uma entidade pelo seu identificador
@@ -32,19 +33,22 @@ public interface Repository<T, U> {
      * @param u
      * @return
      */
-    public T findById(U u);
+    public Response findById(U u);
 
     /**
-     * Método que atualiza a entidade
+     * Update object
+     *
+     * @param id
      * @param t
      * @return
      */
-    public T update(T t);
+    public Response update(U id, T t);
 
     /**
-     * Método que deleta a entidade do banco de dados
+     * Delete resource
+     *
      * @param id
      * @return
      */
-    public boolean delete(U id);
+    public Response delete(U id);
 }

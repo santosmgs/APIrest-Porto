@@ -109,6 +109,16 @@ public class ClienteRepository implements Repository<Cliente, Long> {
         return cliente;
     }
 
+    @Override
+    public Cliente update(Cliente cliente) {
+        return null;
+    }
+
+    @Override
+    public boolean delete(Long id) {
+        return false;
+    }
+
     public List<Cliente> findByName(String texto) {
         List<Cliente> clientes = new ArrayList<>();
         var sql = "SELECT * FROM cliente where UPPER(NM_CLIENTE) like ?";

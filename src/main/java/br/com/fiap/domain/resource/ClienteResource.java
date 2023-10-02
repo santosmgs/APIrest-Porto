@@ -11,12 +11,22 @@ import java.util.List;
 import java.util.Objects;
 
 @Path("/cliente")
-public class ClienteResource {
+public class ClienteResource implements Resource<Cliente, Long>{
 
     @Context
     UriInfo uriInfo;
 
     private ClienteRepository repo = new ClienteRepository();
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response persist(Cliente c) {
+        Cliente cliente = repo.persist(c);
+        //Criando a URI da requisição
+        UriBuilder ub = uriInfo.getAbsolutePathBuilder();
+        URI uri = ub.path(String.valueOf(cliente.getId())).build();
+        return Response.created(uri).entity(cliente).build();
+    }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -36,14 +46,16 @@ public class ClienteResource {
         return Response.ok(cliente).build();
     }
 
-    @POST
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response persit(Cliente c) {
-        Cliente cliente = repo.persist(c);
-        //Criando a URI da requisição
-        UriBuilder ub = uriInfo.getAbsolutePathBuilder();
-        URI uri = ub.path(String.valueOf(cliente.getId())).build();
-        return Response.created(uri).entity(cliente).build();
+    @Override
+    public Response update(Long id, Cliente cliente) {
+        return null;
     }
+
+    @Override
+    public Response delete(Long id) {
+        return null;
+    }
+
+
 
 }
