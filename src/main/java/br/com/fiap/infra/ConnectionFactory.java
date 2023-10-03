@@ -50,7 +50,7 @@ public class ConnectionFactory {
         var config = new HikariConfig();
         Properties prop = new Properties();
         FileInputStream file;
-        Integer pullSize = 3;
+        Integer pullSize = 5;
 
         try {
             file = new FileInputStream( "src/main/resources/application.properties" );

@@ -19,7 +19,7 @@ import java.util.Properties;
 
 public class Main {
 
-    private static final String BASE_URI = "http://localhost/";
+    private static final String BASE_URI = "http://localhost/Bicicleta";
 
     public static HttpServer startServer() {
         // Configure container response filters (CORSFilter)

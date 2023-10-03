@@ -6,3 +6,5 @@ create table CLIENTE
 
 create index "cliente_NM_CLIENTE_index"
     on CLIENTE (NM_CLIENTE);
+
+drop table CLIENTE
