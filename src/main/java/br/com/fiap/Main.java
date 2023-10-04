@@ -19,7 +19,7 @@ import java.util.Properties;
 
 public class Main {
 
-    private static final String BASE_URI = "http://localhost/Bicicleta";
+    private static final String BASE_URI = "http://localhost/";
 
     public static HttpServer startServer() {
         // Configure container response filters (CORSFilter)
@@ -35,7 +35,7 @@ public class Main {
         var server = startServer();
         System.out.println( String.format(
                 "Cliente app started with endpoints available " +
-                        "as %s%nHit Ctrl-C to stop it....", BASE_URI + "cliente" ) );
+                        "as %s%nHit Ctrl-C to stop it....", BASE_URI + "bicicleta" ) );
         try {
             System.in.read();
             server.stop();
