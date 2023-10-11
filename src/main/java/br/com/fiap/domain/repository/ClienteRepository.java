@@ -8,15 +8,20 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class ClienteRepository implements Repository<Cliente, Long> {
+    private ConnectionFactory factory;
+    private static final AtomicReference<ClienteRepository> instance = new AtomicReference<>();
 
-    /**
-     * <strong>Método para persistencia de Entidade</strong>
-     *
-     * @param cliente
-     * @return
-     */
+    public ClienteRepository() {
+        this.factory = ConnectionFactory.build();
+    }
+
+    public static ClienteRepository build() {
+        instance.compareAndSet(null, new ClienteRepository());
+        return instance.get();
+    }
     @Override
     public Cliente persist(Cliente cliente) {
         var sql = "BEGIN" +
