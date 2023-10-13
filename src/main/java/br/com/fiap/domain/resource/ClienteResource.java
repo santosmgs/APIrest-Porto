@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-@Path("/cliente")
+@Path("bicicleta")
 public class ClienteResource implements Resource<Cliente, Long>{
 
     @Context

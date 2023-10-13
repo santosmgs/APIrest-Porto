@@ -124,11 +124,45 @@ public class ClienteRepository implements Repository<Cliente, Long> {
 
     @Override
     public Cliente update(Cliente cliente) {
+        PreparedStatement ps = null;
+
+        var sql = "UPDATE cliente SET NM_CLIENTE = ? where ID_CLIENTE=?";
+
+        ConnectionFactory factory = ConnectionFactory.build();
+        Connection connection = factory.getConnection();
+
+        try {
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, cliente.getNome());
+            ps.setLong(2, cliente.getId());
+            int itensAtualizados = ps.executeUpdate();
+
+            ps.close();
+            connection.close();
+            if (itensAtualizados > 0) return findById(cliente.getId());
+        }catch (SQLException e){
+            System.err.println( "Não foi possível Possivel adicionar o cliente: \n" + e.getMessage() );
+        }
         return null;
     }
 
     @Override
     public boolean delete(Long id) {
+        PreparedStatement ps = null;
+        var sql = "DELETE from cliente where ID_CLIENTE=?";
+        ConnectionFactory factory = ConnectionFactory.build();
+        Connection connection = factory.getConnection();
+        try {
+            ps = connection.prepareStatement(sql);
+            ps.setLong(1, id);
+            int itensRemovidos = ps.executeUpdate();
+
+            ps.close();
+            connection.close();
+            if (itensRemovidos > 0) return true;
+        }catch (SQLException e){
+            System.err.println( "Não foi possível Possivel remover o cliente: \n" + e.getMessage() );
+        }
         return false;
     }
 
