@@ -11,17 +11,24 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class ClienteRepository implements Repository<Cliente, Long> {
-    private ConnectionFactory factory;
     private static final AtomicReference<ClienteRepository> instance = new AtomicReference<>();
 
     public ClienteRepository() {
-        this.factory = ConnectionFactory.build();
     }
 
     public static ClienteRepository build() {
-        instance.compareAndSet(null, new ClienteRepository());
-        return instance.get();
+        ClienteRepository result = instance.get();
+        if (Objects.isNull( result )) {
+            ClienteRepository repo = new ClienteRepository();
+            if (instance.compareAndSet( null, repo )) {
+                result = repo;
+            } else {
+                result = instance.get();
+            }
+        }
+        return result;
     }
+
     @Override
     public Cliente persist(Cliente cliente) {
         var sql = "BEGIN" +
