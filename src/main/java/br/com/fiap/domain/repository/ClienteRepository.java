@@ -1,6 +1,5 @@
 package br.com.fiap.domain.repository;
 
-import br.com.fiap.Main;
 import br.com.fiap.domain.entity.Cliente;
 import br.com.fiap.infra.ConnectionFactory;
 
