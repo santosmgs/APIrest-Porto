@@ -7,7 +7,7 @@ import java.util.List;
 
 public class BicicletaService implements Service<Bicicleta, Long> {
 
-    private BicicletaRepository repo = BicicletaRepository.build();]
+    private BicicletaRepository repo = BicicletaRepository.build();
     @Override
     public List<Bicicleta> findAll() {
         return repo.findAll();
