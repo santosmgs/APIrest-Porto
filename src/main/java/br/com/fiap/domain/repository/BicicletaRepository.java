@@ -95,11 +95,11 @@ public class BicicletaRepository implements Repository<Bicicleta, Long> {
         Bicicleta bicicleta = null;
         var sql = "SELECT * FROM TB_BICICLETA where ID_BICICLETA=?";
 
-        Connection conn = factory.getConnection();
+        Connection con = factory.getConnection();
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            ps = conn.prepareStatement(sql);
+            ps = con.prepareStatement(sql);
             ps.setLong(1, id);
             rs = ps.executeQuery();
 
@@ -112,7 +112,7 @@ public class BicicletaRepository implements Repository<Bicicleta, Long> {
         }catch (SQLException e){
             System.err.println("Não foi possível consultar o Animal");
         }finally {
-            fecharObjetos(conn, ps, rs);
+            fecharObjetos(con, ps, rs);
         }
         return bicicleta;
     }

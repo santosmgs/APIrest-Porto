@@ -2,11 +2,9 @@ package br.com.fiap.domain.resource;
 
 import br.com.fiap.domain.entity.Bicicleta;
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.Context;
-import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
-import jakarta.ws.rs.core.UriInfo;
+import jakarta.ws.rs.core.*;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Objects;
 
@@ -20,10 +18,17 @@ public class BicicletaResource implements Resource<Bicicleta, Long> {
 
     private BicicletaResource service = new BicicletaResource();
 
-    @GET
+    @POST
     @Override
     public Response persist(Bicicleta bicicleta) {
-        return null;
+        Bicicleta persited = service.persist(bicicleta);
+
+        if (Objects.isNull(persited)) return Response.status(404).build();
+
+        UriBuilder uriBuilder = uriInfo.getBaseUriBuilder();
+        URI uri = uriBuilder.path(String.valueOf(persited.getId())).build();
+
+        return Response.created(uri).entity(persited).build();
     }
 
     @GET
