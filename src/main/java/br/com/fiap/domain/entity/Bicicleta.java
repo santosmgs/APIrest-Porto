@@ -4,16 +4,16 @@ public class Bicicleta {
 
     private Long id;
 
-    private String tipo;
+    private String nome;
 
     private Cliente dono;
 
     public Bicicleta() {
     }
 
-    public Bicicleta(Long id, String tipo, Cliente dono) {
+    public Bicicleta(Long id, String nome, Cliente dono) {
         this.setId(id);
-        this.setTipo(tipo);
+        this.setNome(nome);
         this.setDono(dono);
     }
 
@@ -27,12 +27,12 @@ public class Bicicleta {
         return this;
     }
 
-    public String getTipo() {
-        return tipo;
+    public String getNome() {
+        return nome;
     }
 
-    public Bicicleta setTipo(String tipo) {
-        this.tipo = tipo;
+    public Bicicleta setNome(String nome) {
+        this.nome = nome;
         return this;
     }
 
@@ -49,7 +49,7 @@ public class Bicicleta {
     public String toString() {
         return "Bicicleta{" +
                 "id=" + id +
-                ", tipo='" + tipo + '\'' +
+                ", nome='" + nome + '\'' +
                 ", dono=" + dono +
                 '}';
     }

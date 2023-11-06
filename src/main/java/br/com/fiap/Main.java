@@ -28,7 +28,7 @@ public class Main {
         var server = startServer();
         System.out.println( String.format(
                 "Cliente app started with endpoints available " +
-                        "as %s%nHit Ctrl-C to stop it....", BASE_URI + "bicicleta" ) );
+                        "as %s%nHit Ctrl-C to stop it....", BASE_URI ) );
         try {
             System.in.read();
             server.stop();

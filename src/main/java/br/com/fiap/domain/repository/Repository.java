@@ -1,6 +1,11 @@
 package br.com.fiap.domain.repository;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Interface para métodos de Repository
@@ -34,17 +39,14 @@ public interface Repository<T, U> {
      */
     public T findById(U u);
 
-    /**
-     * Método que atualiza a entidade
-     * @param t
-     * @return
-     */
-    public T update(T t);
 
-    /**
-     * Método que deleta a entidade do banco de dados
-     * @param id
-     * @return
-     */
-    public boolean delete(U id);
+    default void fecharObjetos(ResultSet rs, Statement st, Connection con) {
+        try {
+            if (Objects.nonNull(rs) && !rs.isClosed()) rs.close();
+            if (Objects.nonNull(st) && !st.isClosed()) st.close();
+            if (Objects.nonNull(con) && !con.isClosed()) con.close();
+        } catch (SQLException e) {
+            System.err.println("Erro ao encerrar o ResultSet, a Connection e o Statment!\n" + e.getMessage());
+        }
+    }
 }

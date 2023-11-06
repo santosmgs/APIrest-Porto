@@ -46,16 +46,4 @@ public class ClienteResource implements Resource<Cliente, Long>{
         return Response.ok(cliente).build();
     }
 
-    @Override
-    public Response update(Long id, Cliente cliente) {
-        return null;
-    }
-
-    @Override
-    public Response delete(Long id) {
-        return null;
-    }
-
-
-
 }

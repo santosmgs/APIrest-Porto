@@ -42,13 +42,5 @@ public interface Resource<T, U> {
      * @param t
      * @return
      */
-    public Response update(U id, T t);
 
-    /**
-     * Delete resource
-     *
-     * @param id
-     * @return
-     */
-    public Response delete(U id);
 }

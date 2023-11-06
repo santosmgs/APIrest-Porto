@@ -5,6 +5,8 @@ import br.com.fiap.domain.entity.Bicicleta;
 import java.util.List;
 
 public class BicicletaService implements Service<Bicicleta, Long> {
+
+    Bic
     @Override
     public List<Bicicleta> findAll() {
         return null;
