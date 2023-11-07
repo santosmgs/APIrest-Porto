@@ -75,10 +75,14 @@ public class BicicletaRepository implements Repository<Bicicleta, Long> {
             rs = st.executeQuery(sql);
 
             if (rs.isBeforeFirst()){
+                ClienteRepository clienteRepo = ClienteRepository.build();
                 while (rs.next()){
                     Long id = rs.getLong("ID_BICICLETA");
                     String nome = rs.getString("NM_BICICLETA");
-                    list.add(new Bicicleta(id, nome));
+                    Long idCliente = rs.getLong("DONO");
+
+                    Cliente dono = clienteRepo.findById(idCliente);
+                    list.add(new Bicicleta(id, nome, dono));
                 }
             }
 
@@ -104,15 +108,18 @@ public class BicicletaRepository implements Repository<Bicicleta, Long> {
             rs = ps.executeQuery();
 
             if (rs.isBeforeFirst()){
+                ClienteRepository clienteRepo = ClienteRepository.build();
                 while (rs.next()){
-                    String nome = rs.getString("NM_BICICLE");
-                    bicicleta = new Bicicleta(nome);
+                    String nome = rs.getString("NM_BICICLETA");
+                    Long idCliente = rs.getLong("DONO");
+                    Cliente dono = clienteRepo.findById(idCliente);
+                    bicicleta = new Bicicleta(null,nome, dono);
                 }
             }
         }catch (SQLException e){
             System.err.println("Não foi possível consultar o Animal");
         }finally {
-            fecharObjetos(con, ps, rs);
+            fecharObjetos(rs, ps, con);
         }
         return bicicleta;
     }

@@ -19,7 +19,8 @@ public class BicicletaService implements Service<Bicicleta, Long> {
     }
 
     @Override
-    public Bicicleta persiste(Bicicleta bicicleta) {
+    public Bicicleta persist(Bicicleta bicicleta) {
         return repo.persist(bicicleta);
     }
+
 }

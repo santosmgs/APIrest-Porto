@@ -1,6 +1,7 @@
 package br.com.fiap.domain.resource;
 
 import br.com.fiap.domain.entity.Bicicleta;
+import br.com.fiap.domain.service.BicicletaService;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
 
@@ -16,7 +17,7 @@ public class BicicletaResource implements Resource<Bicicleta, Long> {
     @Context
     UriInfo uriInfo;
 
-    private BicicletaResource service = new BicicletaResource();
+    private BicicletaService service = new BicicletaService();
 
     @POST
     @Override
