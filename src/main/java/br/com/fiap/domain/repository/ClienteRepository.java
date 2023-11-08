@@ -33,103 +33,87 @@ public class ClienteRepository implements Repository<Cliente, Long> {
 
     @Override
     public Cliente persist(Cliente cliente) {
-        var sql = "BEGIN" +
-                " INSERT INTO cliente (NM_CLIENTE) " +
-                "VALUES (?) " +
-                "returning ID_CLIENTE into ?; " +
-                "END;" +
-                "";
+        var sql = "INSERT INTO TB_CLIENTE (ID_PESSOA, NM_PESSOA, NR_CPF, NR_CNPJ) VALUES (0,?,?,?)";
 
+        Connection con = factory.getConnection();
+        PreparedStatement ps = null;
 
-
-        var factory = ConnectionFactory.build();
-        Connection connection = factory.getConnection();
-
-        CallableStatement cs = null;
         try {
-            cs = connection.prepareCall( sql );
-            cs.setString( 1, cliente.getNome() );
-            cs.registerOutParameter( 2, Types.BIGINT );
-            cs.executeUpdate();
-            cliente.setId( cs.getLong( 2 ) );
-            cs.close();
-            connection.close();
-        } catch (SQLException e) {
-            System.err.println( "Não foi possível executar o comando!\n" + e.getMessage() );
+            ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+            ps.setString(1,cliente.getNome());
+            ps.setString(2, cliente.getCnpj());
+            ps.setString(3, cliente.getCpf());
+
+            ps.executeUpdate();
+
+            final  ResultSet rs = ps.getGeneratedKeys();
+
+            if (rs.next()){
+                final Long id = rs.getLong(1);
+                cliente.setId(id);
+            }
+        }catch (SQLException e){
+            System.err.println("Não foi possível inserir os dados!\n" + e.getMessage());
+        }finally {
+            fecharObjetos(null, ps, con);
         }
         return cliente;
     }
 
-    /**
-     * Método que retorna todas as Entidades
-     *
-     * @return
-     */
     @Override
     public List<Cliente> findAll() {
-
-        List<Cliente> clientes = new ArrayList<>();
-
+        List<Cliente> list = new ArrayList<>();
+        Connection con = factory.getConnection();
+        ResultSet rs = null;
+        Statement st = null;
         try {
-            var factory = ConnectionFactory.build();
-            Connection connection = factory.getConnection();
-
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery( "SELECT * FROM cliente" );
-
-            if (resultSet.isBeforeFirst()) {
-                while (resultSet.next()) {
-                    Long id = resultSet.getLong( "ID_CLIENTE" );
-                    String nome = resultSet.getString( "NM_CLIENTE" );
-                    //Adicionando clientes na coleção
-                    clientes.add( new Cliente( id, nome ) );
+            String sql = "SELECT * FROM TB_CLIENTE";
+            st = con.createStatement();
+            rs = st.executeQuery(sql);
+            if (rs.isBeforeFirst()){
+                while(rs.next()){
+                    Long id = rs.getLong("ID_CLIENTE");
+                    String nome = rs.getString("NM_CLIENTE");
+                    String cpf = rs.getString("NR_CPF");
+                    String cnpj = rs.getString("NR_CNPJ");
+                    list.add(new Cliente(id, nome, cpf, cnpj));
                 }
             }
-
-            resultSet.close();
-            statement.close();
-            connection.close();
-        } catch (SQLException e) {
-            System.err.println( "Não foi possivel consultar os dados!\n" + e.getMessage() );
+        }catch (SQLException e){
+            System.err.println("Não foi possível consultar os dados!\n" + e.getMessage());
+        }finally {
+            fecharObjetos(rs,st,con);
         }
-        return clientes;
+        return list;
     }
 
-    /**
-     * Método que retorna uma Entity pelo seu identificador
-     *
-     * @param id
-     * @return
-     */
     @Override
     public Cliente findById(Long id) {
         Cliente cliente = null;
-        var sql = "SELECT * FROM cliente where ID_CLIENTE=?";
-
-        var factory = ConnectionFactory.build();
-        Connection connection = factory.getConnection();
+        var sql  = "SELECT * FROM TB_CLIENTE where ID_CLIENTE = ?";
+        Connection con = factory.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement( sql );
-            preparedStatement.setLong( 1, id );
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.isBeforeFirst()) {
-                while (resultSet.next()) {
-                    cliente = new Cliente(
-                            resultSet.getLong( "ID_CLIENTE" ),
-                            resultSet.getString( "NM_CLIENTE" )
-                    );
+            ps = con.prepareStatement(sql);
+            ps.setLong(1, id);
+            rs = ps.executeQuery();
+            if (rs.isBeforeFirst()){
+                while(rs.next()){
+                    String nome = rs.getString("NM_PESSOA");
+                    String cpf = rs.getString("NR_CPF");
+                    String cnpj = rs.getString("NR_CNPJ");
+                    cliente = new Cliente(id, nome, cpf, cnpj);
                 }
-            } else {
-                System.out.println( "Cliente não encontrado com o id = " + id );
+                }else {
+                System.out.println("Dados não encontrados com o id: " + id);
             }
-            resultSet.close();
-            preparedStatement.close();
-            connection.close();
-        } catch (SQLException e) {
-            System.err.println( "Não foi possível executar a consulta: \n" + e.getMessage() );
+        }catch (SQLException e){
+            System.err.println("Não foi possível consultar os dados!\n" + e.getMessage());
+        }finally {
+            fecharObjetos(rs, ps, con);
         }
         return cliente;
     }
-
-
 }

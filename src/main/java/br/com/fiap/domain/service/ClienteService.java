@@ -19,7 +19,7 @@ public class ClienteService implements Service<Cliente, Long> {
     }
 
     @Override
-    public Cliente persiste(Cliente cliente) {
+    public Cliente persist(Cliente cliente) {
         return repo.persist(cliente);
     }
 }

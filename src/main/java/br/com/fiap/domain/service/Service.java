@@ -9,7 +9,7 @@ public interface Service<T, U> {
     public T findById(U id);
 
 
-    public T persiste(T t);
+    public T persist(T t);
 
 }
 
