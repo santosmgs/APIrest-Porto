@@ -17,19 +17,19 @@ public class BicicletaResource implements Resource<Bicicleta, Long> {
     @Context
     UriInfo uriInfo;
 
-    private BicicletaService service = new BicicletaService();
+     BicicletaService service = new BicicletaService();
 
     @POST
     @Override
     public Response persist(Bicicleta bicicleta) {
-        Bicicleta persited = service.persist(bicicleta);
+        Bicicleta persit = service.persist(bicicleta);
 
-        if (Objects.isNull(persited)) return Response.status(404).build();
+        if (Objects.isNull(persit)) return Response.status(404).build();
 
         UriBuilder uriBuilder = uriInfo.getBaseUriBuilder();
-        URI uri = uriBuilder.path(String.valueOf(persited.getId())).build();
+        URI uri = uriBuilder.path(String.valueOf(persit.getId())).build();
 
-        return Response.created(uri).entity(persited).build();
+        return Response.created(uri).entity(persit).build();
     }
 
     @GET

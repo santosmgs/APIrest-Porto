@@ -18,19 +18,12 @@ public class BicicletaRepository implements Repository<Bicicleta, Long> {
     private static final AtomicReference<BicicletaRepository> instance = new AtomicReference<>();
 
     private BicicletaRepository() {
+        this.factory = ConnectionFactory.build();
     }
 
     public static BicicletaRepository build() {
-        BicicletaRepository result = instance.get();
-        if (Objects.isNull( result )) {
-            BicicletaRepository repo = new BicicletaRepository();
-            if (instance.compareAndSet( null, repo )) {
-                result = repo;
-            } else {
-                result = instance.get();
-            }
-        }
-        return result;
+        instance.compareAndSet(null, new BicicletaRepository());
+        return instance.get();
     }
     @Override
     public Bicicleta persist(Bicicleta bicicleta) {

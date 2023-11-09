@@ -15,20 +15,13 @@ public class ClienteRepository implements Repository<Cliente, Long> {
 
     private static final AtomicReference<ClienteRepository> instance = new AtomicReference<>();
 
-    public ClienteRepository() {
+    private ClienteRepository() {
+        this.factory = ConnectionFactory.build();
     }
 
     public static ClienteRepository build() {
-        ClienteRepository result = instance.get();
-        if (Objects.isNull( result )) {
-            ClienteRepository repo = new ClienteRepository();
-            if (instance.compareAndSet( null, repo )) {
-                result = repo;
-            } else {
-                result = instance.get();
-            }
-        }
-        return result;
+        instance.compareAndSet(null, new ClienteRepository());
+        return instance.get();
     }
 
     @Override

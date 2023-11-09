@@ -2,11 +2,12 @@ package br.com.fiap.domain.resource;
 
 import br.com.fiap.domain.entity.Cliente;
 import br.com.fiap.domain.repository.ClienteRepository;
+import br.com.fiap.domain.service.ClienteService;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
 
 import java.net.URI;
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -18,32 +19,39 @@ public class ClienteResource implements Resource<Cliente, Long>{
     @Context
     UriInfo uriInfo;
 
-    private ClienteRepository repo = new ClienteRepository();
+     ClienteService service = new ClienteService();
+
+
 
     @POST
-    @Produces(MediaType.APPLICATION_JSON)
+    @Override
     public Response persist(Cliente c) {
-        Cliente cliente = repo.persist(c);
-        //Criando a URI da requisição
-        UriBuilder ub = uriInfo.getAbsolutePathBuilder();
-        URI uri = ub.path(String.valueOf(cliente.getId())).build();
-        return Response.created(uri).entity(cliente).build();
+       c.setId(null);
+       Cliente cliente = service.persist(c);
+
+       if (Objects.isNull(cliente))
+           return Response.notModified("Não foi possivel salvar o cliente" +c).build();
+
+       UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder();
+           URI uri = uriBuilder.path(String.valueOf(cliente.getId())).build();
+
+           return Response.created( uri ).entity( cliente ).build();
+
     }
 
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
+    @Override
     public Response findAll() {
-        List<Cliente> clientes = new ArrayList<>();
-        clientes = repo.findAll();
-        return Response.ok(clientes).build();
+       List<Cliente> all = service.findAll();
+       return Response.ok(all).build();
     }
 
 
     @GET
     @Path("/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
+    @Override
     public Response findById(@PathParam("id") Long id) {
-        Cliente cliente = repo.findById(id);
+        Cliente cliente = service.findById(id);
         if (Objects.isNull(cliente)) return Response.status(404).build();
         return Response.ok(cliente).build();
     }
