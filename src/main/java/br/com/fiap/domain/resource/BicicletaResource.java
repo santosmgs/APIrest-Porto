@@ -9,7 +9,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.Objects;
 
-@Path("/animal")
+@Path("/bicicleta")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class BicicletaResource implements Resource<Bicicleta, Long> {

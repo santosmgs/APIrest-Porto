@@ -21,14 +21,14 @@ public class Main {
                 // Configure ConnectionFactory
                 .register(ConnectionFactory.build())
                 // Configure os pacotes em que temos Recursos da API REST
-                .packages("br.com.fiap.domain.resources");
+                .packages("br.com.fiap.domain.resource");
         return GrizzlyHttpServerFactory.createHttpServer(URI.create(BASE_URI), rc);
     }
 
     public static void main(String[] args) {
         var server = startServer();
         System.out.println(String.format(
-                "App Petshop  🤓👍  started with endpoints available " +
+                "started with endpoints available " +
                         "as %s%nHit Ctrl-C to stop it....", BASE_URI));
         try {
             System.in.read();

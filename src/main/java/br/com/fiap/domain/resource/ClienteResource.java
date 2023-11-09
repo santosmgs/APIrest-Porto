@@ -10,7 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-@Path("bicicleta")
+@Path("/cliente")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
 public class ClienteResource implements Resource<Cliente, Long>{
 
     @Context
