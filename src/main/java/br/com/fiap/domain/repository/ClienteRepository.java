@@ -26,7 +26,7 @@ public class ClienteRepository implements Repository<Cliente, Long> {
 
     @Override
     public Cliente persist(Cliente cliente) {
-        var sql = "INSERT INTO TB_CLIENTE (ID_PESSOA, NM_PESSOA, NR_CPF, NR_CNPJ) VALUES (0,?,?,?)";
+        var sql = "INSERT INTO TB_CLIENTE (ID_CLIENTE, ENDERECO, NM_CLIENTE, NR_CPF) VALUES (0,?,?,?)";
 
         Connection con = factory.getConnection();
         PreparedStatement ps = null;
@@ -35,7 +35,7 @@ public class ClienteRepository implements Repository<Cliente, Long> {
             ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
             ps.setString(1,cliente.getNome());
-            ps.setString(2, cliente.getCnpj());
+            ps.setString(2,cliente.getEndereco());
             ps.setString(3, cliente.getCpf());
 
             ps.executeUpdate();
@@ -68,9 +68,9 @@ public class ClienteRepository implements Repository<Cliente, Long> {
                 while(rs.next()){
                     Long id = rs.getLong("ID_CLIENTE");
                     String nome = rs.getString("NM_CLIENTE");
+                    String endereco = rs.getString("ENDERECO");
                     String cpf = rs.getString("NR_CPF");
-                    String cnpj = rs.getString("NR_CNPJ");
-                    list.add(new Cliente(id, nome, cpf, cnpj));
+                    list.add(new Cliente(id, nome, endereco, cpf));
                 }
             }
         }catch (SQLException e){
@@ -94,10 +94,10 @@ public class ClienteRepository implements Repository<Cliente, Long> {
             rs = ps.executeQuery();
             if (rs.isBeforeFirst()){
                 while(rs.next()){
-                    String nome = rs.getString("NM_PESSOA");
+                    String nome = rs.getString("NM_CLIENTE");
+                    String endereco = rs.getString("ENDERECO");
                     String cpf = rs.getString("NR_CPF");
-                    String cnpj = rs.getString("NR_CNPJ");
-                    cliente = new Cliente(id, nome, cpf, cnpj);
+                    cliente = new Cliente(id, nome, endereco, cpf);
                 }
                 }else {
                 System.out.println("Dados não encontrados com o id: " + id);

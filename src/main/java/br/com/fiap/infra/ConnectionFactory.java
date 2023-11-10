@@ -53,7 +53,7 @@ public class ConnectionFactory {
         Integer pullSize = 3;
 
         try {
-            file = new FileInputStream( "src/main/resources/application.properties" );
+            file = new FileInputStream( "src/main/resource/application.properties" );
             prop.load( file );
             file.close();
 

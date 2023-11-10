@@ -20,7 +20,9 @@ end;
 create table CLIENTE
 (
     ID_CLIENTE NUMBER default 19 not null constraint CLIENTE_PK primary key,
-    NM_CLIENTE VARCHAR2(255)
+    NM_CLIENTE VARCHAR2(255),
+    ENDERECO VARCHAR(250),
+    NR_CPF VARCHAR(14)
 );
 
 create index "cliente_NM_CLIENTE_index"
